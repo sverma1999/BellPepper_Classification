@@ -1,0 +1,3 @@
+google-cloud-storage
+tensorflow==2.7.4
+Pillow==9.4.0
