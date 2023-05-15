@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # if any request come from local host, then its allowed.
-#some security policy will not block the request after usinf cors.
+# some security policy will not block the request after usinf cors.
 origins = [
     "http://localhost",
     "http://localhost:3000",
@@ -27,11 +27,19 @@ app.add_middleware(
 
 # Get the absolute path to the script's directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+model_version = max([int(i) for i in os.listdir(
+    "../idg_models") if i != '.DS_Store'] + [0])
+
 # Construct the path to the model file using the script's directory
-model_path = os.path.join(script_dir, "../saved_models/1")
+# model_path = os.path.join(script_dir, "../saved_models/1")
+# model_path = os.path.join(script_dir, "../idg_models/1/peppermodel.h5")
+model_path = os.path.join(
+    script_dir, f"../idg_models/{model_version}/peppermodel.h5")
 
 # MODEL = tf.keras.models.load_model("/Users/shubhamverma/Documents/Data Science:ML/Projects/PlantDiseaseClass/Colab_Code/pepper_code/saved_models/1")
 MODEL = tf.keras.models.load_model(model_path)
+# MODEL = tf.saved_model.load(model_path)
 CLASS_NAMES = ["Bacterial_spot", "Healthy"]
 
 
@@ -59,14 +67,14 @@ async def predict(
     image = read_image_file(await file.read())
     img_batch = np.expand_dims(image, 0)
     predictions = MODEL.predict(img_batch)
-    index = np.argmax(predictions[0]) # this will return the index if maximum prediction from array of predictions.
+    # this will return the index if maximum prediction from array of predictions.
+    index = np.argmax(predictions[0])
     predicted_class = CLASS_NAMES[index]
     confidence = np.max(predictions[0])
     return {
         "class": predicted_class,
         "confidence": float(confidence)
     }
-    
 
 
 if __name__ == "__main__":

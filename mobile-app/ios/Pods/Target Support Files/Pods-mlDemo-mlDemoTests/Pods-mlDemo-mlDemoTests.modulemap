@@ -1,6 +1,0 @@
-module Pods_mlDemo_mlDemoTests {
-  umbrella header "Pods-mlDemo-mlDemoTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
