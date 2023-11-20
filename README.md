@@ -244,3 +244,6 @@ converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 tflite_quant_model = converter.convert()
 ```
+
+# Acknowledgement
+I want to aknowledge that I took help from Codebasics (https://www.youtube.com/@codebasicsHindi). This is a guided project.
